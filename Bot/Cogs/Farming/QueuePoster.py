@@ -164,7 +164,7 @@ class QueuePoster(commands.Cog):
             embed.add_field(name = "**Buyer:** ", value = f"<@{message.author.id}>", inline = False)
             embed.add_field(name = "**Card Name:** ", value = str(card_name), inline = False) 
             embed.add_field(name = "**Location:** ", value = str(card_location), inline = False)
-            embed.add_field(name = "**XP Amount:** ", value = str(card_amount), inline = False)
+            embed.add_field(name = "**Card Amount:** ", value = str(card_amount), inline = False)
             embed.add_field(name = "**Farm Type:** ", value = str(speed_flag2), inline = False)
             embed.add_field(name = "**Price:** ", value = str(farming_cost), inline = False)
             embed.set_footer(text= rand_foot)

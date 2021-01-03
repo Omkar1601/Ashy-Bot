@@ -36,7 +36,7 @@ class ProgressPoster(commands.Cog):
                         buyer = message.embeds[0].fields[0].value
                         card = message.embeds[0].fields[1].value
                         location = message.embeds[0].fields[2].value
-                        xp = message.embeds[0].fields[3].value
+                        nos = message.embeds[0].fields[3].value
                         farm_type = message.embeds[0].fields[4].value 
                         price = message.embeds[0].fields[5].value
                         catch = re.search("[0-9]+", buyer)
@@ -54,7 +54,7 @@ class ProgressPoster(commands.Cog):
                         embed.add_field(name = "**Card Name:** ", value = card, inline = False)
                         embed.set_thumbnail(url = user.avatar_url)
                         embed.add_field(name = "**Location:** ", value = location, inline = False)
-                        embed.add_field(name = "**XP:** ", value = xp, inline = False)
+                        embed.add_field(name = "**Card Amount:** ", value = nos, inline = False)
                         embed.add_field(name = "**Farm Type:** ", value = farm_type, inline = False)
                         embed.add_field(name = "**Price:** ", value = price, inline = False)
                         embed.set_footer(text = rand_foot)
@@ -66,7 +66,7 @@ class ProgressPoster(commands.Cog):
                         mydb = sqlite3.connect("farm.sqlite")
                         cursor = mydb.cursor()
                         cmd = "insert into FARM values(?, ?, ?, ?, ?, ?, ?, ?)"
-                        val = (user.id, buyer_id, card, xp, location, price, farm_id, farm_type)
+                        val = (user.id, buyer_id, card, nos, location, price, farm_id, farm_type)
                         cursor.execute(cmd, val)
 
                         await message.delete()

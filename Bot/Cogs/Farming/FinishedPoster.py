@@ -45,20 +45,20 @@ class FinishedPoster(commands.Cog):
                             else: 
                                 buyer = str(result[1])
                                 card = str(result[2])
-                                xp = str(result[3])                                        
+                                nos = str(result[3])                                        
                                 price = str(result[5])
 
                                 cursor.execute(f"select Custom_Msg from CUSTOM where Farmer_ID= {user.id}")
                                 result = cursor.fetchone()
 
                                 if result == None:
-                                    await finished_channel.send(f"Heyaa <@{buyer}>! Your order for {xp} XP {card} has been completed at a grand total of {price} gold. Please ping <@{user.id}> at your earliest convenience.")
+                                    await finished_channel.send(f"Heyaa <@{buyer}>! Your order for {nos} cards of {card} has been completed at a grand total of {price} gold. Please ping <@{user.id}> at your earliest convenience.")
 
                                 else:
                                     msg = str(result[0])
                                     msg = msg.replace("BUYER", f"<@{buyer}>")
                                     msg = msg.replace("CARD", card)
-                                    msg = msg.replace("EXP", xp)
+                                    msg = msg.replace("NUM", nos)
                                     msg = msg.replace("PRICE", price)
                                     msg = msg.replace("FARMER", f"<@{user.id}>")
 

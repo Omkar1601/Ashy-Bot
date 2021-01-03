@@ -10,14 +10,13 @@ class Custom(commands.Cog):
     @commands.command()
     @commands.has_role(Constants.FARMER_ID)
     async def custom(self, ctx):
-        await ctx.send(f"""**__Custom Finished-Channel Message:__** \nSet up your own custom message to be displayed on completion of your undertaken order with the following command: \n`{self.bot.command_prefix}setmsg <message>` where `<message>` should contain the following: \n:small_blue_diamond: BUYER \n:small_blue_diamond: CARD \n:small_blue_diamond: EXP \n:small_blue_diamond: PRICE \n:small_blue_diamond: FARMER \nExample: `{self.bot.command_prefix}setmsg Heya BUYER!!! Your order for EXP xp CARD has been completed at a grand total of PRICE gold. Please ping FARMER in Anitrade 1/2/3 at your convenience.` \n \nP.S. *To include emotes, add them to your message using their IDs [\\<:dead:123456\\> , :owo:]. The emotes, if custom, should be present in this server or DM/Ping Ashy with your message containing the emotes.*""")
+        await ctx.send(f"""**__Custom Finished-Channel Message:__** \nSet up your own custom message to be displayed on completion of your undertaken order with the following command: \n`{self.bot.command_prefix}setmsg <message>` where `<message>` should contain the following: \n:small_blue_diamond: BUYER \n:small_blue_diamond: CARD \n:small_blue_diamond: NUM \n:small_blue_diamond: PRICE \n:small_blue_diamond: FARMER \nExample: `{self.bot.command_prefix}setmsg Heya BUYER!!! Your order for NUM cards CARD has been completed at a grand total of PRICE gold. Please ping FARMER in Anitrade 1/2/3 at your convenience.` \n \nP.S. *To include emotes, add them to your message using their IDs [\\<:dead:123456\\> , :owo:]. The emotes, if custom, should be present in this server or DM/Ping Ashy with your message containing the emotes.*""")
 
     @commands.command()
     @commands.has_role(Constants.FARMER_ID)
-    async def setmsg(self, ctx , *, custmsg):
-      #  if (discord.utils.find("BUYER", custmsg) and discord.utils.find("CARD", custmsg) and discord.utils.find("EXP", custmsg) and discord.utils.find("PRICE", custmsg) and discord.utils.find("FARMER", custmsg)):
-        if ("BUYER" not in custmsg or "CARD" not in custmsg or "EXP" not in custmsg or "PRICE" not in custmsg or "FARMER" not in custmsg):
-            await ctx.send("Incorrect format! Use `sus!custom`")
+    async def setmsg(self, ctx , *, custmsg):    
+        if ("BUYER" not in custmsg or "CARD" not in custmsg or "NUM" not in custmsg or "PRICE" not in custmsg or "FARMER" not in custmsg):
+            await ctx.send(f"Incorrect format! Use `{self.bot.command_prefix}custom`")
             return
         else:
 
