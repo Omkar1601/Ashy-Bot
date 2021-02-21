@@ -13,13 +13,13 @@ def Cards(self, text):
         c_catch = re.search('cards', text)
         c_start = c_catch.start()
         c_end = c_catch.end()
-        return c_start, c_end
+        return (c_start, c_end)
 
     elif 'card' in text:
-        c_catch = re.search('cards', text)
+        c_catch = re.search('card', text)
         c_start = c_catch.start()
         c_end = c_catch.end()
-        return c_start, c_end
+        return (c_start, c_end)
 
 def Speedo(self, text):
     if 'slow' in text:
@@ -63,29 +63,31 @@ def LocCatch(self, text):
                             return floor
 
 def PriceCalc(self, card_amount, card_location, speed_flag):
-    rate_floor = int(card_location.strip())
+    rate_floor = card_location.strip()
     spchar= re.compile(r"[/\|:-]")
     sp_catch= spchar.search(card_location)
 
     if sp_catch != None:
         spchar_index= sp_catch.start()
         rate_floor= int(card_location[:spchar_index])
+    else:
+        rate_floor = int(rate_floor)
 
     if speed_flag == 0:
-        if rate_floor <30:
+        if rate_floor < 30:
             charge_rate = 80
         else:
             charge_rate = 70
     
     if speed_flag == 1:
         if rate_floor <= 50:
-            charge_rate = 125
-        
-        elif rate_floor >= 51 and rate_floor <=55:
             charge_rate = 110
+        
+        elif rate_floor >= 51 and rate_floor <= 55:
+            charge_rate = 105
 
         else:
-            charge_rate = 150 
+            charge_rate = 130 
 
     card_amount = int(card_amount.strip())
     return card_amount * charge_rate
@@ -97,7 +99,7 @@ class QueuePoster(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        queue_channel = Constants.QUEUE_CHANNEL
+        queue_channel = self.bot.get_channel(Constants.QUEUE_CHANNEL)
 
         if(message.channel.id != Constants.ORDER_CHANNEL):
             return
@@ -115,6 +117,7 @@ class QueuePoster(commands.Cog):
 
             card_start, card_end = Cards(self, text)
             
+            
             for index, c in enumerate(text[:card_start]):
                 if c.isdigit():
                     amount_start = index
@@ -124,22 +127,25 @@ class QueuePoster(commands.Cog):
             card_amount = text[amount_start:card_start]
             card_name = ""
             card_location = "Not Specified"
+            
 
             text2 = text.lower()
             speed_end = 0
             speed_flag = 1
             speed_flag2 = ''
-
+            
             if "normal" in text2 or 'slow' in text2:
                 speed_start, speed_end, speed_flag = Speedo(self, text2)
                 card_name = text[card_end:speed_start]
-                flag+=1
+                flag = 1
+                
 
             if "loc" in text2[speed_end:] or "location" in text2[speed_end:]:
                 loc_start, loc_end = Loc(self, text2)
 
                 if loc_start != None and loc_end != None:
                     card_location= LocCatch(self, text2[loc_end:])
+                    
 
             farming_cost = 0
 
@@ -149,14 +155,15 @@ class QueuePoster(commands.Cog):
             else:
                 speed_flag2 = 'Normal'
 
-            
+           
             if card_location == 'Not Specified':
-                farming_cost = "Couldn't calculate 'cos card location isn't specified."
+                farming_cost = "Error 'cos card location isn't specified."
             
             else:
                 farming_cost = PriceCalc(self, card_amount, card_location, speed_flag)
-
-            footers= ["Owe Ashy my life for resurrecting me again!", "So ladies n' gentlemen, I got the medicine so you should keep ya eyes on the ball", "Believe me, waifus > stats!", "Everyday is my birthday!", "you love me... you love me not. you love me...","Do try out the other bots too.", "Ashy initially wanted me to be a hentai-ish bot *sad moans*", "Mark's looking for loli emotes, help when?", "te amo mami!", "We totally don't sell hentai here ;)", "Fun Fact: I Love You!", "Do say a 'hi' to our beloved traps here", "Suji... we miss you love :(", "omg wtf ily!", "Simp a sugar daddy when?", "Feel free to ping Ashy to remind them that they're a cute!", "Ha-ha-how you like that", "Unrequited love? I feel you"]
+                
+            
+            footers= ["Owe Ashy my life for resurrecting me again!", "So ladies n' gentlemen, I got the medicine so you should keep ya eyes on the ball", "Believe me, waifus > stats!", "Everyday is my birthday!", "you love me... you love me not. you love me...","Do try out the other bots too.", "Ashy initially wanted me to be a hentai-ish bot *sad moans*", "te amo mami!", "We totally don't sell hentai here ;)", "Fun Fact: I Love You!", "Do say a 'hi' to our beloved traps here", "Suji... we miss you love :(", "omg wtf ily!", "Simp a sugar daddy when?", "Feel free to ping Ashy to remind them that they're a cute!", "Ha-ha-how you like that", "Unrequited love? I feel you"]
             rand_foot= random.choice(footers)
 
             embed= discord.Embed(title= "__**ORDER**__", timestamp= datetime.datetime.now(), colour= discord.Colour.blue())
@@ -168,11 +175,14 @@ class QueuePoster(commands.Cog):
             embed.add_field(name = "**Farm Type:** ", value = str(speed_flag2), inline = False)
             embed.add_field(name = "**Price:** ", value = str(farming_cost), inline = False)
             embed.set_footer(text= rand_foot)
-
+            
             if flag == 1:
                 msg = await queue_channel.send(embed = embed)
-                await msg.add_reaction(Constants.REACTION_EMOTE)
-                await message.add_reaction(Constants.VALIDATION_EMOTE)
+                await message.add_reaction("<:emolcute:684013224982478862>")
+                await msg.add_reaction("<:emolcute:684013224982478862>")
+
+                
+
 
 
 def setup(bot):

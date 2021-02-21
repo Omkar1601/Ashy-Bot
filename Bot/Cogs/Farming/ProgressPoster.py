@@ -29,8 +29,10 @@ class ProgressPoster(commands.Cog):
                     flag = True
                     farmer_role = discord.utils.get(message.guild.roles, id= Constants.FARMER_ID)
                     if farmer_role not in member.roles:
-                        flag = False                        
-                        return await message.remove_reaction(Constants.REACTION_EMOTE, user)
+                        flag = False                                               
+
+                        await message.remove_reaction(Constants.REACTION_EMOTE, user)
+                        
 
                     if flag:
                         buyer = message.embeds[0].fields[0].value
@@ -44,12 +46,12 @@ class ProgressPoster(commands.Cog):
                         ide = catch.end()
                         buyer_id = buyer[ids:ide] 
 
-                        footers = ["Owe Ashy my life for resurrecting me again!", "So ladies n' gentlemen, I got the medicine so you should keep ya eyes on the ball", "Believe me, waifus > stats!", "Everyday is my birthday!", "you love me... you love me not. you love me...","Do try out the other bots too.", "Ashy initially wanted me to be a hentai-ish bot *sad moans*", "Mark's looking for loli emotes, help when?", "te amo mami!", "We totally don't sell hentai here ;)", "Fun Fact: I Love You!", "Do say a 'hi' to our beloved traps here", "Suji... we miss you love :(", "omg wtf ily!", "Simp a sugar daddy when?", "Feel free to ping Ashy to remind them that they're a cute!", "Ha-ha-how you like that", "Unrequited love? I feel you"]
+                        footers = ["Owe Ashy my life for resurrecting me again!", "So ladies n' gentlemen, I got the medicine so you should keep ya eyes on the ball", "Believe me, waifus > stats!", "Everyday is my birthday!", "you love me... you love me not. you love me...","Do try out the other bots too.", "Ashy initially wanted me to be a hentai-ish bot *sad moans*", "te amo mami!", "We totally don't sell hentai here ;)", "Fun Fact: I Love You!", "Do say a 'hi' to our beloved traps here", "Suji... we miss you love :(", "omg wtf ily!", "Simp a sugar daddy when?", "Feel free to ping Ashy to remind them that they're a cute!", "Ha-ha-how you like that", "Unrequited love? I feel you"]
                         rand_foot = secrets.choice(footers)
 
                         farm_id = secrets.randbelow(10000)
 
-                        embed= discord.Embed(title = f"__**Under Progress**__", timestamp = datetime.datetime.now(), colour = discord.Colour.blue())
+                        embed= discord.Embed(title = "__**Under Progress**__", timestamp = datetime.datetime.now(), colour = discord.Colour.blue())
                         embed.add_field(name = "**Order ID:** ", value = str(farm_id), inline = True)
                         embed.add_field(name = "**Card Name:** ", value = card, inline = False)
                         embed.set_thumbnail(url = user.avatar_url)
@@ -63,7 +65,7 @@ class ProgressPoster(commands.Cog):
                         await msg.add_reaction(Constants.REACTION_EMOTE)
 
                         
-                        mydb = sqlite3.connect("farm.sqlite")
+                        mydb = sqlite3.connect("Farm.sqlite")
                         cursor = mydb.cursor()
                         cmd = "insert into FARM values(?, ?, ?, ?, ?, ?, ?, ?)"
                         val = (user.id, buyer_id, card, nos, location, price, farm_id, farm_type)

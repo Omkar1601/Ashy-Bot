@@ -32,7 +32,7 @@ class FinishedPoster(commands.Cog):
 
                         if flag:
                             farm_id = message.embeds[0].fields[0].value
-                            mydb = sqlite3.connect("farm.sqlite")
+                            mydb = sqlite3.connect("Farm.sqlite")
                             cursor = mydb.cursor()
                             
                             cursor.execute(f"select * from FARM where Farm_ID = {farm_id} and Farmer_ID = {user.id}")
@@ -40,7 +40,8 @@ class FinishedPoster(commands.Cog):
 
                             if not result:
                                 await message.remove_reaction(Constants.REACTION_EMOTE, user)
-                                return await message.channel.send("You ain't working on this order!", delete_after= 5)
+                                await message.channel.send("You ain't working on this order!", delete_after= 5)
+                                return
 
                             else: 
                                 buyer = str(result[1])
